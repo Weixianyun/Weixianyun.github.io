@@ -9,7 +9,7 @@
     
     <title>
         
-            初探 ArkTS 开发 |
+            📅 每日打卡 |
         
         Weixianyun&#39;s
     </title>
@@ -99,7 +99,7 @@
                         </li>
                     
                         
-                        <li class="menu-item flex-start border-box">
+                        <li class="menu-item flex-start border-box active">
                             <a class="menu-text-color border-box" href="/checkin">
                                 
                                     <i class="menu-text-color menu-icon fa-solid fa-calendar-check"></i>
@@ -150,7 +150,7 @@
                 </li>
             
                 
-                <li class="drawer-menu-item border-box not-sub-menu">
+                <li class="drawer-menu-item border-box not-sub-menu active">
                     <label class="drawer-menu-label border-box">
                         <a class="drawer-menu-text-color left-side flex-start border-box" href="/checkin">
                             
@@ -181,151 +181,83 @@
                 
 
                     
+
 <div class="fade-in-down-animation">
-    <div class="post-page-container border-box">
-        <div class="post-content-container border-box">
+    <div class="page-template-container border-box keep-container ">
+        <!-- page top -->
+        
+
+        <!-- page bottom -->
+        <div class="page-template-bottom border-box">
+            <!-- use page template -->
             
 
-            <div class="post-content-bottom border-box">
+            <!-- page content -->
+            <div class="page-content border-box keep-markdown-body ">
                 
-                    <div class="post-title">
-                        初探 ArkTS 开发
-                    </div>
-                
-
-                
-                    <div class="post-header border-box">
-                        
-                            <div class="avatar-box border-box">
-                                <img src="/images/logo.png">
-                            </div>
-                        
-                        <div class="info-box">
-                            <div class="author border-box">
-                                <span class="name">Weixianyun</span>
-                                
-                                    <span class="author-badge">Lv1</span>
-                                
-                            </div>
-                            <div class="meta-info border-box">
-                                
-
-<div class="post-meta-info-container border-box post">
-    <div class="post-meta-info border-box">
-        
-
-        
-            <span class="meta-info-item post-create-date">
-                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2026-05-22 19:01:29</span>
-            </span>
-
-            
-                <span class="meta-info-item post-update-date">
-                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                    <span class="datetime" data-updated="Fri May 22 2026 19:09:13 GMT+0800">2026-05-22 19:09:13</span>
-                </span>
-            
-        
-
-        
-
-        
-
-        
-        
-        
-        
-    </div>
-
-    
+                    <p>欢迎来到赛博打卡中心！点击下方按钮记录你的足迹。（注：数据安全地保存在你当前的浏览器本地）</p>
+<div id="checkin-board" style="margin-top: 20px; text-align:center; padding: 30px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea;">
+  <h2 style="margin-top: 0; color: #333;">打卡记录台</h2>
+  <p style="font-size: 1.1em; color: #555;">累计打卡：<span id="streak-count" style="color: #0066cc; font-weight: bold; font-size: 1.5em; margin: 0 5px;">0</span> 天</p>
+  
+  <button id="checkin-btn" style="margin-top: 15px; padding: 12px 30px; border: none; border-radius: 8px; background: #0066cc; color: white; font-size: 1.1em; cursor: pointer; transition: background 0.3s; box-shadow: 0 2px 6px rgba(0,102,204,0.3);">
+    立即打卡
+  </button>
+  
+  <p id="checkin-msg" style="font-size: 0.9em; color: #888; margin-top: 15px; min-height: 20px;"></p>
 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                
+<script>
+  // 获取网页元素
+  const btn = document.getElementById('checkin-btn');
+  const streakSpan = document.getElementById('streak-count');
+  const msg = document.getElementById('checkin-msg');
 
-                <div class="post-content keep-markdown-body ">
-                    
+  // 读取浏览器本地存储的数据
+  let streak = parseInt(localStorage.getItem('my_blog_streak')) || 0;
+  let lastCheckin = localStorage.getItem('last_checkin_date');
+  let today = new Date().toLocaleDateString();
 
-                    
-                         <h2 id="1-为什么选择-ArkTS？"><a href="#1-为什么选择-ArkTS？" class="headerlink" title="1. 为什么选择 ArkTS？"></a>1. 为什么选择 ArkTS？</h2><p>在接触 HarmonyOS 原生应用开发时，发现它的主力语言是 <strong>ArkTS</strong>。相比于传统的开发语言，它在声明式 UI 上的表现非常出色。</p>
-<h2 id="2-学习清单"><a href="#2-学习清单" class="headerlink" title="2. 学习清单"></a>2. 学习清单</h2><ul>
-<li>熟悉基本语法与组件</li>
-<li>查阅 StarFlash（星闪）技术的相关开发文档</li>
-<li>动手实践一个小 Demo</li>
-</ul>
-<h2 id="3-我的第一段测试代码"><a href="#3-我的第一段测试代码" class="headerlink" title="3. 我的第一段测试代码"></a>3. 我的第一段测试代码</h2><p>下面是我练习写的一段简单逻辑：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello, HarmonyOS!&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">greet</span>();</span><br></pre></td></tr></table></figure>
-                    
-                </div>
+  // 初始化显示天数
+  streakSpan.innerText = streak;
 
-                
+  // 检查今天是否已经打卡
+  if (lastCheckin === today) {
+    btn.innerText = '今日已打卡';
+    btn.style.background = '#cccccc';
+    btn.style.boxShadow = 'none';
+    btn.style.cursor = 'not-allowed';
+    btn.disabled = true;
+    msg.innerText = '☕ 休息一下，明天再来吧！';
+  } else {
+    // 鼠标悬停变色效果
+    btn.onmouseover = function() { if(!btn.disabled) btn.style.background = '#005bb5'; }
+    btn.onmouseout = function() { if(!btn.disabled) btn.style.background = '#0066cc'; }
+  }
 
-                <div class="post-bottom-tags-and-share border-box">
-                    <div>
-                        
-                    </div>
-                    <div>
-                        
-                    </div>
-                </div>
-
-                
-
-                
-                    <div class="post-nav border-box">
-                        
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2026/05/22/Hexo%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B8%85%E5%8D%95/"
-                                   title="个人博客运维武功秘籍：Hexo 常用命令清单"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">个人博客运维武功秘籍：Hexo 常用命令清单</span>
-                                        <span class="post-nav-item">上一篇</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
-                        
-                            <div class="next-post">
-                                <a class="next"
-                                   rel="next"
-                                   href="/2026/05/19/hello-world/"
-                                   title="Hello World"
-                                >
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Hello World</span>
-                                        <span class="post-nav-item">下一篇</span>
-                                    </span>
-                                    <span class="right arrow-icon flex-center">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        
-                    </div>
-                
-
-                
-                    
-
-
-
-
-
-
+  // 点击打卡逻辑
+  btn.onclick = function() {
+    streak += 1;
+    // 将新数据存入浏览器
+    localStorage.setItem('my_blog_streak', streak);
+    localStorage.setItem('last_checkin_date', today);
+    
+    // 更新界面表现
+    streakSpan.innerText = streak;
+    btn.innerText = '✔ 打卡成功';
+    btn.style.background = '#28a745';
+    btn.style.boxShadow = '0 2px 6px rgba(40,167,69,0.3)';
+    btn.style.cursor = 'not-allowed';
+    btn.disabled = true;
+    msg.innerText = '🎉 太棒了！今天的进度已成功保存。';
+  }
+</script>
                 
             </div>
-        </div>
 
-        
+            <!-- comment plugin -->
+            
+        </div>
     </div>
 </div>
 
@@ -359,27 +291,6 @@
     </div>
 
     <!-- post tools -->
-    
-        <div class="post-tools right-toc">
-            <div class="post-tools-container border-box">
-    <ul class="post-tools-list border-box">
-        <!-- PC encrypt again -->
-        
-
-        <!-- PC TOC show toggle -->
-        
-
-        <!-- PC go comment -->
-        
-
-        <!-- PC full screen -->
-        <li class="tools-item flex-center full-screen">
-            <i class="fa-solid fa-expand"></i>
-        </li>
-    </ul>
-</div>
-
-        </div>
     
 
     <!-- side tools -->
@@ -473,20 +384,6 @@
     
 
     <!-- post page -->
-    
-        <!-- post-helper -->
-        
-<script src="/js/post/post-helper.js"></script>
-
-
-        <!-- toc -->
-        
-
-        <!-- copyright-info -->
-        
-
-        <!-- share -->
-        
     
 
     <!-- categories page -->
