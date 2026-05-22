@@ -195,8 +195,7 @@
             <!-- page content -->
             <div class="page-content border-box keep-markdown-body ">
                 
-                    <p>欢迎来到赛博打卡中心！点击下方按钮记录你的足迹。（注：数据安全地保存在你当前的浏览器本地）</p>
-<div id="checkin-board" style="margin-top: 20px; text-align:center; padding: 30px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea;">
+                    <div id="checkin-board" style="margin-top: 20px; text-align:center; padding: 30px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea;">
   <h2 style="margin-top: 0; color: #333;">打卡记录台</h2>
   <p style="font-size: 1.1em; color: #555;">累计打卡：<span id="streak-count" style="color: #0066cc; font-weight: bold; font-size: 1.5em; margin: 0 5px;">0</span> 天</p>
   
@@ -230,7 +229,6 @@
     btn.disabled = true;
     msg.innerText = '☕ 休息一下，明天再来吧！';
   } else {
-    // 鼠标悬停变色效果
     btn.onmouseover = function() { if(!btn.disabled) btn.style.background = '#005bb5'; }
     btn.onmouseout = function() { if(!btn.disabled) btn.style.background = '#0066cc'; }
   }
@@ -238,11 +236,11 @@
   // 点击打卡逻辑
   btn.onclick = function() {
     streak += 1;
-    // 将新数据存入浏览器
+    // 数据安全保存在访客本地浏览器
     localStorage.setItem('my_blog_streak', streak);
     localStorage.setItem('last_checkin_date', today);
     
-    // 更新界面表现
+    // 更新 UI
     streakSpan.innerText = streak;
     btn.innerText = '✔ 打卡成功';
     btn.style.background = '#28a745';
