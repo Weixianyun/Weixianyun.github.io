@@ -9,7 +9,7 @@
     
     <title>
         
-            📅 每日打卡 |
+            📅 每日打卡与运势 |
         
         Weixianyun&#39;s
     </title>
@@ -195,61 +195,208 @@
             <!-- page content -->
             <div class="page-content border-box keep-markdown-body ">
                 
-                    <div id="checkin-board" style="margin-top: 20px; text-align:center; padding: 30px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea;">
-  <h2 style="margin-top: 0; color: #333;">打卡记录台</h2>
-  <p style="font-size: 1.1em; color: #555;">累计打卡：<span id="streak-count" style="color: #0066cc; font-weight: bold; font-size: 1.5em; margin: 0 5px;">0</span> 天</p>
+                    <p>欢迎来到赛博打卡中心！完成打卡后，可解锁今日专属“极客刮刮乐盲盒”。（数据安全保存在本地浏览器）</p>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch; margin-top: 20px;">
   
-  <button id="checkin-btn" style="margin-top: 15px; padding: 12px 30px; border: none; border-radius: 8px; background: #0066cc; color: white; font-size: 1.1em; cursor: pointer; transition: background 0.3s; box-shadow: 0 2px 6px rgba(0,102,204,0.3);">
-    立即打卡
-  </button>
-  
-  <p id="checkin-msg" style="font-size: 0.9em; color: #888; margin-top: 15px; min-height: 20px;"></p>
+  <div style="flex: 1; min-width: 280px; text-align:center; padding: 30px; background: #ffffff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea;">
+    
+    <h2 style="margin-top: 0; color: #333;">打卡记录台</h2>
+    <p style="font-size: 1.1em; color: #555;">累计打卡：<span id="streak-count" style="color: #0066cc; font-weight: bold; font-size: 1.5em; margin: 0 5px;">0</span> 天</p>
+
+    <button id="checkin-btn" style="margin-top: 15px; padding: 12px 30px; border: none; border-radius: 8px; background: #0066cc; color: white; font-size: 1.1em; cursor: pointer; transition: background 0.3s; box-shadow: 0 2px 6px rgba(0,102,204,0.3);">
+      立即打卡
+    </button>
+    <p id="checkin-msg" style="font-size: 0.9em; color: #888; margin-top: 15px; min-height: 20px;"></p>
+
+    <div id="scratch-area" style="display: none; margin-top: 30px; border-top: 1px dashed #ccc; padding-top: 20px;">
+      <h3 style="color: #d9534f; margin-top: 0;">🎁 今日盲盒刮刮乐</h3>
+      <p style="font-size: 0.9em; color: #666; margin-bottom: 15px;">用鼠标或手指刮开灰色涂层看看运势</p>
+      
+      <div style="position: relative; width: 260px; height: 100px; margin: 0 auto; user-select: none;">
+        <div id="prize-text" style="position: absolute; width: 100%; height: 100%; line-height: 100px; text-align: center; font-size: 1.2em; font-weight: bold; color: #d9534f; background: #fdf2f2; border: 2px dashed #d9534f; border-radius: 8px; z-index: 1;">
+          ...
+        </div>
+        <canvas id="scratch-canvas" width="260" height="100" style="position: absolute; top: 0; left: 0; z-index: 2; border-radius: 8px; cursor: crosshair;"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div style="width: 220px; flex-grow: 1; max-width: 300px; text-align:center; padding: 30px; background: #fafafa; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eaeaea; display: flex; flex-direction: column; justify-content: center;">
+    <h3 style="margin-top: 0; color: #333;">💰 本月小金库</h3>
+    <p style="font-size: 0.9em; color: #666;">赛博盲盒累计掉落</p>
+    <p style="margin: 15px 0;"><span id="wallet-amount" style="color: #d9534f; font-weight: bold; font-size: 3em;">0</span> <span style="color: #555; font-weight: bold;">元</span></p>
+    <p style="font-size: 0.85em; color: #999; margin-bottom: 0;" id="wallet-month-label">结算周期载入中...</p>
+  </div>
+
 </div>
 
 <script>
-  // 获取网页元素
-  const btn = document.getElementById('checkin-btn');
-  const streakSpan = document.getElementById('streak-count');
-  const msg = document.getElementById('checkin-msg');
-
-  // 读取浏览器本地存储的数据
-  let streak = parseInt(localStorage.getItem('my_blog_streak')) || 0;
-  let lastCheckin = localStorage.getItem('last_checkin_date');
-  let today = new Date().toLocaleDateString();
-
-  // 初始化显示天数
-  streakSpan.innerText = streak;
-
-  // 检查今天是否已经打卡
-  if (lastCheckin === today) {
-    btn.innerText = '今日已打卡';
-    btn.style.background = '#cccccc';
-    btn.style.boxShadow = 'none';
-    btn.style.cursor = 'not-allowed';
-    btn.disabled = true;
-    msg.innerText = '☕ 休息一下，明天再来吧！';
-  } else {
-    btn.onmouseover = function() { if(!btn.disabled) btn.style.background = '#005bb5'; }
-    btn.onmouseout = function() { if(!btn.disabled) btn.style.background = '#0066cc'; }
-  }
-
-  // 点击打卡逻辑
-  btn.onclick = function() {
-    streak += 1;
-    // 数据安全保存在访客本地浏览器
-    localStorage.setItem('my_blog_streak', streak);
-    localStorage.setItem('last_checkin_date', today);
+  setTimeout(() => {
+    // 1. 获取所有 DOM 元素
+    const btn = document.getElementById('checkin-btn');
+    const streakSpan = document.getElementById('streak-count');
+    const msg = document.getElementById('checkin-msg');
+    const scratchArea = document.getElementById('scratch-area');
+    const prizeText = document.getElementById('prize-text');
+    const canvas = document.getElementById('scratch-canvas');
+    const walletAmount = document.getElementById('wallet-amount');
+    const walletMonthLabel = document.getElementById('wallet-month-label');
     
-    // 更新 UI
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // 2. 核心算法：带权重的概率抽奖
+    function drawPrize() {
+      const rand = Math.random() * 100; 
+      if (rand < 49) return "🤣 谢谢参与";
+      if (rand < 74) return "💰 10元";
+      if (rand < 89) return "💴 20元";
+      if (rand < 97) return "💵 30元";
+      return "💎 50元大奖！";
+    }
+
+    // 3. 提取金额的转换器
+    function extractAmount(prizeStr) {
+      if (prizeStr.includes("10元")) return 10;
+      if (prizeStr.includes("20元")) return 20;
+      if (prizeStr.includes("30元")) return 30;
+      if (prizeStr.includes("50元")) return 50;
+      return 0; // 谢谢参与就是 0 元
+    }
+
+    // 4. 读取与初始化日期及本地数据
+    let todayDate = new Date();
+    let today = todayDate.toLocaleDateString();
+    let currentMonthKey = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1); // 类似 "2026-5"
+    let displayMonthStr = todayDate.getFullYear() + '年' + (todayDate.getMonth() + 1) + '月';
+
+    let streak = parseInt(localStorage.getItem('my_blog_streak')) || 0;
+    let lastCheckin = localStorage.getItem('last_checkin_date');
+    let todayPrize = localStorage.getItem('today_prize');
+    let hasScratched = localStorage.getItem('has_scratched_today');
+    
+    // 金库数据读取与跨月清零逻辑
+    let savedMonth = localStorage.getItem('wallet_month');
+    let monthlyTotal = parseInt(localStorage.getItem('monthly_total')) || 0;
+    if (savedMonth !== currentMonthKey) {
+      monthlyTotal = 0; // 发现是新的一月，自动清零
+      localStorage.setItem('wallet_month', currentMonthKey);
+      localStorage.setItem('monthly_total', monthlyTotal);
+    }
+
+    // 初始化界面数值
     streakSpan.innerText = streak;
-    btn.innerText = '✔ 打卡成功';
-    btn.style.background = '#28a745';
-    btn.style.boxShadow = '0 2px 6px rgba(40,167,69,0.3)';
-    btn.style.cursor = 'not-allowed';
-    btn.disabled = true;
-    msg.innerText = '🎉 太棒了！今天的进度已成功保存。';
-  }
+    walletAmount.innerText = monthlyTotal;
+    walletMonthLabel.innerText = "结算周期：" + displayMonthStr;
+
+    // 5. 初始化灰色涂层
+    function initCanvas() {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#cccccc';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#666666';
+      ctx.font = 'bold 20px Arial';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('刮一刮', canvas.width / 2, canvas.height / 2);
+    }
+
+    // 6. 组装并显示刮刮乐
+    function setupScratchCard() {
+      scratchArea.style.display = 'block';
+
+      // 如果今天是新打卡，则抽取奖品并【充值到小金库】
+      if (!todayPrize || lastCheckin !== today) {
+         todayPrize = drawPrize();
+         localStorage.setItem('today_prize', todayPrize);
+         localStorage.removeItem('has_scratched_today');
+         hasScratched = null;
+
+         // 将抽到的金额加入本月总库
+         let wonMoney = extractAmount(todayPrize);
+         if (wonMoney > 0) {
+           monthlyTotal += wonMoney;
+           localStorage.setItem('monthly_total', monthlyTotal);
+           walletAmount.innerText = monthlyTotal;
+         }
+      }
+      prizeText.innerText = todayPrize;
+
+      if (hasScratched === today) {
+         canvas.style.display = 'none';
+         return;
+      }
+
+      canvas.style.display = 'block';
+      initCanvas();
+      
+      let isDrawing = false;
+      ctx.globalCompositeOperation = 'destination-out';
+
+      function getMousePos(evt) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = evt.touches ? evt.touches[0].clientX : evt.clientX;
+        const clientY = evt.touches ? evt.touches[0].clientY : evt.clientY;
+        return { x: clientX - rect.left, y: clientY - rect.top };
+      }
+
+      function scratch(evt) {
+        if (!isDrawing) return;
+        evt.preventDefault();
+        
+        const pos = getMousePos(evt);
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (hasScratched !== today) {
+           hasScratched = today;
+           localStorage.setItem('has_scratched_today', today);
+        }
+      }
+
+      canvas.addEventListener('mousedown', (e) => { isDrawing = true; scratch(e); });
+      canvas.addEventListener('mousemove', scratch);
+      canvas.addEventListener('mouseup', () => isDrawing = false);
+      canvas.addEventListener('mouseleave', () => isDrawing = false);
+      canvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); }, {passive: false});
+      canvas.addEventListener('touchmove', scratch, {passive: false});
+      canvas.addEventListener('touchend', () => isDrawing = false);
+    }
+
+    // 7. 检查页面加载时的状态
+    if (lastCheckin === today) {
+      btn.innerText = '今日已打卡';
+      btn.style.background = '#cccccc';
+      btn.style.cursor = 'not-allowed';
+      btn.disabled = true;
+      msg.innerText = '☕ 休息一下，看看今天的运势吧！';
+      setupScratchCard(); 
+    } else {
+      btn.onmouseover = function() { if(!btn.disabled) btn.style.background = '#005bb5'; }
+      btn.onmouseout = function() { if(!btn.disabled) btn.style.background = '#0066cc'; }
+    }
+
+    // 8. 点击打卡按钮触发事件
+    btn.onclick = function() {
+      streak += 1;
+      localStorage.setItem('my_blog_streak', streak);
+      localStorage.setItem('last_checkin_date', today);
+      
+      streakSpan.innerText = streak;
+      btn.innerText = '✔ 打卡成功';
+      btn.style.background = '#28a745';
+      btn.style.boxShadow = '0 2px 6px rgba(40,167,69,0.3)';
+      btn.style.cursor = 'not-allowed';
+      btn.disabled = true;
+      msg.innerText = '🎉 太棒了！已为你解锁今日刮刮乐。';
+      
+      setupScratchCard();
+    }
+  }, 150);
 </script>
+
                 
             </div>
 
