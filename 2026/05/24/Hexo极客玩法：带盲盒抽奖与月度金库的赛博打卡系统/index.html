@@ -223,7 +223,7 @@
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                    <span class="datetime" data-updated="Mon May 25 2026 14:54:05 GMT+0800">2026-05-25 14:54:05</span>
+                    <span class="datetime" data-updated="Mon May 25 2026 14:56:55 GMT+0800">2026-05-25 14:56:55</span>
                 </span>
             
         
@@ -278,7 +278,7 @@
 
                     
                          <p>谁说静态博客只能看文章？在折腾完 Keep 极简主题后，我决定更进一步，为我的 [Weixianyun’s Blog] 引入一套完整的“赛博打卡”生态。</p>
-<p>这次的升级不仅包含之前的打卡记录，还引入了 <strong>Canvas 刮刮乐盲盒</strong>、<strong>商业级加权概率抽奖</strong> 以及 <strong>月度收益金库</strong> 功。</p>
+<p>这次的升级不仅包含之前的打卡记录，还引入了 <strong>Canvas 刮刮乐盲盒</strong>、<strong>商业级加权概率抽奖</strong> 以及 <strong>月度收益金库</strong> 功能。</p>
 <h2 id="1-核心功能拆解"><a href="#1-核心功能拆解" class="headerlink" title="1. 核心功能拆解"></a>1. 核心功能拆解</h2><p>为了保持 Hexo 的纯净，这套系统完全基于浏览器前端逻辑：</p>
 <ul>
 <li><strong>打卡系统：</strong> 利用 <code>LocalStorage</code> 记录连续足迹。</li>
@@ -287,29 +287,15 @@
 <li><strong>赛博金库：</strong> 自动累加每月中奖金额，并具备“跨月自动清零结算”的逻辑判断。</li>
 </ul>
 <h2 id="2-商业级抽奖概率逻辑"><a href="#2-商业级抽奖概率逻辑" class="headerlink" title="2. 商业级抽奖概率逻辑"></a>2. 商业级抽奖概率逻辑</h2><p>在代码中，我放弃了平均随机，改用“区间划分法”来实现真实的掉落感：</p>
-<pre><code class="language-javascript">function drawPrize() {
-  const rand = Math.random() * 100; // 掷出一个 0-100 的点数
-  if (rand &lt; 49) return &quot;🤣 谢谢参与&quot;;     // 49% 概率
-  if (rand &lt; 74) return &quot;💰 10元&quot;;         // 25% 概率
-  if (rand &lt; 89) return &quot;💴 20元&quot;;         // 15% 概率
-  if (rand &lt; 97) return &quot;💵 30元&quot;;         // 8% 概率
-  return &quot;💎 50元大奖！&quot;;                  // 3% 锦鲤概率
-}
-##3. 月度金库与响应式布局
-为了让“金库”在右侧美观显示，我使用了 Flexbox 弹性布局，使其在电脑端横向并排，而在手机端自动垂直堆叠。
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">drawPrize</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> rand = <span class="title class_">Math</span>.<span class="title function_">random</span>() * <span class="number">100</span>; <span class="comment">// 掷出一个 0-100 的点数</span></span><br><span class="line">  <span class="keyword">if</span> (rand &lt; <span class="number">49</span>) <span class="keyword">return</span> <span class="string">&quot;🤣 谢谢参与&quot;</span>;     <span class="comment">// 49% 概率</span></span><br><span class="line">  <span class="keyword">if</span> (rand &lt; <span class="number">74</span>) <span class="keyword">return</span> <span class="string">&quot;💰 10元&quot;</span>;         <span class="comment">// 25% 概率</span></span><br><span class="line">  <span class="keyword">if</span> (rand &lt; <span class="number">89</span>) <span class="keyword">return</span> <span class="string">&quot;💴 20元&quot;</span>;         <span class="comment">// 15% 概率</span></span><br><span class="line">  <span class="keyword">if</span> (rand &lt; <span class="number">97</span>) <span class="keyword">return</span> <span class="string">&quot;💵 30元&quot;</span>;         <span class="comment">// 8% 概率</span></span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;💎 50元大奖！&quot;</span>;                  <span class="comment">// 3% 锦鲤概率</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-同时，通过记录 wallet_month 标签，系统会在你每个月第一次打开页面时，自动判断是否需要开启新一轮的收集周期。
+<h2 id="3-月度金库与响应式布局"><a href="#3-月度金库与响应式布局" class="headerlink" title="3. 月度金库与响应式布局"></a>3. 月度金库与响应式布局</h2><p>为了让“金库”在右侧美观显示，我使用了 <code>Flexbox</code> 弹性布局，使其在电脑端横向并排，而在手机端自动垂直堆叠。</p>
+<p>同时，通过记录 <code>wallet_month</code> 标签，系统会在你每个月第一次打开页面时，自动判断是否需要开启新一轮的收集周期。</p>
+<h2 id="4-如何在-Hexo-中保护-JavaScript？"><a href="#4-如何在-Hexo-中保护-JavaScript？" class="headerlink" title="4. 如何在 Hexo 中保护 JavaScript？"></a>4. 如何在 Hexo 中保护 JavaScript？</h2><p>Hexo 的渲染引擎有时会误伤 Markdown 里的 HTML 代码。为了确保系统稳定运行，我们需要使用 Hexo 的原生保护标签：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&amp;#123;% raw %&amp;#125;</span><br><span class="line">  这里放你的 HTML 和 JS 代码</span><br><span class="line">&amp;#123;% endraw %&amp;#125;</span><br></pre></td></tr></table></figure>
 
-##4. 如何在 Hexo 中保护 JavaScript？
-Hexo 的渲染引擎有时会误伤 Markdown 里的 HTML 代码。为了确保系统稳定运行，我使用了 Hexo 的原生保护标签：
-
-
-  
-##5. 总结
-通过这次折腾，我发现静态博客的潜力远不止于文字。只要善用浏览器的 API，我们完全可以把博客变成一个有趣的个人极客实验室。
-
-欢迎大家点击导航栏的 [打卡] 按钮，来刮开你的今日好运！
-</code></pre>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><p>通过这次折腾，我发现静态博客的潜力远不止于文字。只要善用浏览器的 API，我们完全可以把博客变成一个有趣的个人极客实验室。</p>
+<p>欢迎大家点击导航栏的 <strong>[打卡]</strong> 按钮，来刮开你的今日好运！</p>
 
                     
                 </div>
