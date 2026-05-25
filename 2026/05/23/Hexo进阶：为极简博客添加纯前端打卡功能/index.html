@@ -223,7 +223,7 @@
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                    <span class="datetime" data-updated="Fri May 22 2026 23:46:49 GMT+0800">2026-05-22 23:46:49</span>
+                    <span class="datetime" data-updated="Mon May 25 2026 15:01:01 GMT+0800">2026-05-25 15:01:01</span>
                 </span>
             
         
@@ -278,8 +278,9 @@
 <p>考虑到静态博客追求极致轻量的初衷，我并不想为了一个简单的打卡功能去折腾复杂的后端云函数和数据库。因此，我决定利用浏览器的本地存储（LocalStorage），写一个零延迟、零服务器负担的“单机版赛博打卡机”。</p>
 <p>下面是完整的实现过程与代码分享。</p>
 <h2 id="1-创建独立的打卡页面"><a href="#1-创建独立的打卡页面" class="headerlink" title="1. 创建独立的打卡页面"></a>1. 创建独立的打卡页面</h2><p>首先，在 Hexo 根目录打开终端，新建一个名为 <code>checkin</code> 的独立页面：</p>
-<pre><code class="language-bash">hexo new page &quot;checkin&quot;
-</code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new page <span class="string">&quot;checkin&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>随后，在生成的 <code>source/checkin/index.md</code> 文件中，写入包含 HTML 和 JavaScript 的打卡逻辑代码即可。</p>
 
                     
                 </div>
